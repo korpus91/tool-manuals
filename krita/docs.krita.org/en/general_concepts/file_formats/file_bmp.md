@@ -1,0 +1,17 @@
+# *.bmp — Krita Manual 5.3.0 documentation
+
+- Docs »
+
+- General Concepts »
+
+- File Formats »
+
+- *.bmp
+
+-
+
+# *.bmp¶
+
+.bmp, or Bitmap, is the simplest raster file format out there, and, being patent-free, most programs can open and save bitmap files.
+
+However, most programs don’t compress bitmap files, leading to BMP having a reputation for being very heavy. If you need a lossless file format, we actually recommend *.png.

@@ -1,0 +1,39 @@
+# Nla Mode Blend Items - Blender Python APIContentsMenuExpandLight modeDark modeAuto light/dark, in light modeAuto light/dark, in dark mode
+
+Skip to content
+
+Blender Python API
+
+   Back to top
+
+# Nla Mode Blend Items¶
+
+REPLACE:
+
+Replace.
+
+The strip values replace the accumulated results by amount specified by influence.
+
+COMBINE:
+
+Combine.
+
+The strip values are combined with accumulated results by appropriately using addition, multiplication, or quaternion math, based on channel type.
+
+ADD:
+
+Add.
+
+Weighted result of strip is added to the accumulated results.
+
+SUBTRACT:
+
+Subtract.
+
+Weighted result of strip is removed from the accumulated results.
+
+MULTIPLY:
+
+Multiply.
+
+Weighted result of strip is multiplied with the accumulated results.

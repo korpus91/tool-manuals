@@ -1,0 +1,56 @@
+# Data contracts between components | FreeMoCap
+
+Skip to main content
+
+This page is in flux. Data contracts section for FreeMoCap core is a work in progress for version alpha. It's expected to stabilize by beta.
+AI-generated documentationchecked against source
+
+This page was drafted by an AI assistant from source material and may contain inaccuracies. If you spot something wrong, please open an issue or use the Edit this page link below to submit a fix.
+
+2026-10-14
+
+freemocap main at v2.0.0-alpha.25 (75c8acc2): sync_job.py (SkellySync now imported), export_to_blender.py (_addon_config_payload, 3d_models FBX/BVH). Updated the SkellySync and Blender lines; repos.yml consumes/produces left as is.
+
+2026-08-26
+
+data/repos.yml consumes/produces fields cross-checked against source: freemocap core/tasks/mocap/posthoc_mocap_task.py, core/blender/export_to_blender.py, pubsub/pubsub_topics.py, core/pipeline/realtime/realtime_aggregator_node.py, system/telemetry/telemetry.py; skellytracker core/data_primitives/observation.py; skellycam core/ipc/shared_memory/camera_shared_memory_ring_buffer.py; skellyforge package layout; freemocap_blender_addon freemocap_data_handler loader and saver; DataContractsTable component and repos-data-plugin
+
+2026-08-24
+
+generated live from data/repos.yml's consumes/produces fields, not hand-written
+
+More about how these docs are written
+
+# Data contracts between components
+
+This is the reference table for what the polyrepo map draws as a diagram. It lists every repo that produces or consumes a named data artifact, what that artifact is called, and (computed, not hand-entered) which repo actually consumes each thing that gets produced.
+
+RepoProducesConsumed byConsumes
+
+SkellyCamsynchronized_frame_packagesSkellyTrackernone
+
+SkellyTrackerkeypoint_observationsSkellyForgesynchronized_frame_packages
+
+SkellyForgereconstructed_points
+kinematic_modelsnobody (terminal output)
+SkellyBlenderkeypoint_observations
+
+SkellyBlenderblend_scenenobody (terminal output)kinematic_models
+
+An artifact name here is a contract in the loosest sense: a shared name both sides agree on, not a versioned schema either side can validate against independently. If a producer changes an artifact's shape without the consumer changing to match, nothing in this table would catch it, it's a map of who depends on whom, not a type checker. This table, like the polyrepo map, is generated live from data/repos.yml at page-load time; edit that file, not this page.
+
+Cross-checking the table's names against actual source (FreeMoCap pinned to tag v2.0.0-alpha.21, sibling repos at their current main), several of them are aspirational labels rather than identifiers that appear anywhere in code, and FreeMoCap's own row understates things. Specifically:
+
+- synchronized_frame_packages does not exist as an identifier in any cloned repo. The real handoff out of SkellyCam is shared memory. Pipeline nodes read frames from each camera's CameraSharedMemoryRingBuffer, plus the recorded video files SkellyCam writes to disk. The direction of the arrow (SkellyCam feeding SkellyTracker) is right even where the name is not.
+
+- What actually crosses the SkellyTracker boundary is its Observation dataclass (skellytracker/core/data_primitives/observation.py). FreeMoCap's posthoc mocap task takes a per-frame list of {camera_id: Observation} and accumulates each camera's observations in an ObservationBuffer before triangulation.
+
+- reconstructed_points and kinematic_models have no counterparts under those names either. In the current code SkellyForge is less a pipeline stage that consumes keypoints and more a library FreeMoCap pulls from: canonical skeleton models (AnatomicalStructure and the tracking_model_info definitions), the Point3d and Trajectory3d trajectory types used throughout core/, posthoc filtering and interpolation, and the enforce_rigid_bones rigidification step.
+
+- SkellyBlender's contract with FreeMoCap is file-based rather than object-based: Blender export runs against the recording folder on disk (and currently supports MediaPipe-processed recordings only, enforced in core/blender/export_to_blender.py), producing a .blend file written next to the recording plus FBX/BVH files in its 3d_models/ folder. The app's export options are mapped into the addon's own config sections by _addon_config_payload() in the same file.
+
+- FreeMoCap's empty row hides that it is the biggest producer and consumer of all: its task signatures import SkellyTracker's Observation and SkellyCam's RecordingInfo directly, and it emits the recording outputs other tools load, including the .blend file preceding and the saved output arrays named by the constants in core/blender/export_to_blender.py (skeleton_3d.npy, rigid_bones_3d.npy, and friends).
+
+The utility-tier rows do check out as genuinely artifact-free in this sense: the backend imports configure_logging and get_websocket_log_queue from SkellyLogs and a TelemetryClient from SkellyPings, and calls SkellySync (skelly_synchronize) only to line up imported videos before they become a recording, so none of them passes a named data artifact to another repo.
+
+← Architecture overview

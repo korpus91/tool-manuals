@@ -1,0 +1,39 @@
+# Import Curve Operators - Blender Python APIContentsMenuExpandLight modeDark modeAuto light/dark, in light modeAuto light/dark, in dark mode
+
+Skip to content
+
+Blender Python API
+
+   Back to top
+
+# Import Curve Operators¶
+
+ bpy.ops.import_curve.svg(*, filepath='', filter_glob='*.svg', directory='', files=None)¶
+
+Load a SVG file
+
+Parameters:
+
+-
+filepath (str) – File Path, Filepath used for importing the file (optional, never None)
+
+-
+filter_glob (str) – filter_glob, (optional, never None)
+
+-
+directory (str) – directory, (optional, never None)
+
+-
+files (bpy_prop_collection[OperatorFileListElement] | None) – File Path, (optional)
+
+Returns:
+
+Result of the operator call.
+
+Return type:
+
+set[Literal[Operator Return Items]]
+
+File:
+
+addons_core/io_curve_svg/__init__.py:61

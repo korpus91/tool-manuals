@@ -1,0 +1,43 @@
+# Undo History — Krita Manual 5.3.0 documentation
+
+- Docs »
+
+- Reference Manual »
+
+- Dockers »
+
+- Undo History
+
+-
+
+# Undo History¶
+
+## Undo History Docker¶
+
+This docker allows you to quickly shift between undo states, and even go back in time far more quickly than rapidly reusing the Ctrl + Z shortcut.
+
+## Cumulative Undo¶
+
+Cumulative Undo is a feature of Krita that allows merging similar undo states basing on their time separation. It makes the undo history cleaner.
+   Your browser doesn't support video
+Cumulative Undo settings are located under General -> Miscellaneous page of Krita settings dialog
+
+In the advanced section of the settings you can configure the following properties:
+
+Wait before merging strokes
+
+The minimal age (in seconds) of the strokes to become subject to merging. This option allows you to keep undo for last N seconds intact.
+
+Exclude last strokes from merge
+
+The minimal number of strokes that undo history should have before merging will start. This option allows you to keep N last strokes intact.
+
+Max interval group strokes
+
+The maximum break the user takes between doing two strokes that can be considered to belong the same group. The lower the value, the more irrelevant strokes will be merged.
+
+Max group duration
+
+The maximum duration of a single group. When a group becomes too long, Krita just starts a new one.
+
+Apart from these options, Krita will make sure that strokes of different colors, brush presets or blending modes are not merged together.

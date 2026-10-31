@@ -1,0 +1,39 @@
+# Keyframe Handle Type Items - Blender Python APIContentsMenuExpandLight modeDark modeAuto light/dark, in light modeAuto light/dark, in dark mode
+
+Skip to content
+
+Blender Python API
+
+   Back to top
+
+# Keyframe Handle Type Items¶
+
+FREE:
+
+Free.
+
+Completely independent manually set handle.
+
+ALIGNED:
+
+Aligned.
+
+Manually set handle with rotation locked together with its pair.
+
+VECTOR:
+
+Vector.
+
+Automatic handles that create straight lines.
+
+AUTO:
+
+Automatic.
+
+Automatic handles that create smooth curves.
+
+AUTO_CLAMPED:
+
+Auto Clamped.
+
+Automatic handles that create smooth curves which only change direction at keyframes.
